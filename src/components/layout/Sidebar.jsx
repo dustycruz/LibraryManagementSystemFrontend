@@ -1,4 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom';
+import logo from '../../assets/logo.png';
 import { useAuth } from '../../context/useAuth';
 import { 
   Home, 
@@ -48,12 +49,22 @@ export default function Sidebar() {
     <aside className="sidebar">
       <div className="sidebar-logo">
         <div className="logo-row">
-          <BookOpen size={32} color="#003f7f" />
-          <div>
-            <div className="logo-title">Open Library</div>
-            <div className="logo-subtitle">Management System</div>
-          </div>
-        </div>
+  <img
+    src={logo}
+    alt="UST Angelicum Logo"
+    style={{
+      width: '48px',
+      height: '48px',
+      objectFit: 'contain',
+      flexShrink: 0
+    }}
+  />
+
+  <div>
+    <div className="logo-title">UST Angelicum</div>
+    <div className="logo-subtitle">Library Management System</div>
+  </div>
+</div>
       </div>
 
       <div className="sidebar-user">

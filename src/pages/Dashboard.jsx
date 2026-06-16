@@ -5,15 +5,6 @@ import {
   getMostBorrowed,
   getUserActivity,
 } from '../api/reportsApi';
-import { Bar } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Tooltip,
-  Legend,
-} from 'chart.js';
 import { formatCurrency } from '../utils/helpers';
 import { useAuth } from '../context/useAuth';
 import LoadingSpinner from '../components/common/LoadingSpinner';
@@ -24,13 +15,10 @@ import {
   AlertCircle, 
   Users, 
   DollarSign, 
-  BarChart3, 
   Activity,
   Flame,
   ArrowUp
 } from 'lucide-react';
-
-ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 const BLUE = '#003f7f';
 const CARD = { backgroundColor: '#ffffff', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0, 63, 127, 0.12)', overflow: 'hidden' };
@@ -44,8 +32,6 @@ const ADMIN_STATS = [
   { key: 'totalActiveUsers',     label: 'Active Users',     Icon: Users, bg: 'linear-gradient(135deg, #f3e8fd 0%, #e1bee7 100%)', color: '#7b1fa2' },
   { key: 'totalUnpaidFines',     label: 'Unpaid Fines',     Icon: DollarSign, bg: 'linear-gradient(135deg, #fce8e6 0%, #ffcccc 100%)', color: '#c5221f', format: formatCurrency },
 ];
-
-
 
 export default function Dashboard() {
   const { isAdminOrLibrarian } = useAuth();
@@ -348,7 +334,7 @@ export default function Dashboard() {
         minHeight: '600px',
       }}>
 
-        {/* ── CHART CARD ── */}
+        {/* ── TRENDING BOOKS CARD ── */}
         <div style={{ ...CARD, display: 'flex', flexDirection: 'column', border: '1px solid rgba(0, 63, 127, 0.06)' }}>
           <div style={{
             display: 'flex', 
@@ -359,74 +345,144 @@ export default function Dashboard() {
             backgroundColor: 'linear-gradient(135deg, #f8fafb 0%, #ffffff 100%)',
             flexShrink: 0,
           }}>
-            <BarChart3 size={20} color={BLUE} />
+            <Flame size={20} color={BLUE} />
             <h2 style={{ fontSize: '18px', fontWeight: '700', color: BLUE, margin: 0 }}>
-              Top 10 Most Borrowed Books
+              Trending Books
             </h2>
           </div>
 
-          <div style={{ padding: '28px', flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+          <div style={{ padding: '24px', flex: 1, overflowY: 'auto', minHeight: 0 }}>
             {loading ? (
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1, minHeight: '300px' }}>
                 <LoadingSpinner />
               </div>
             ) : topBooks.length > 0 ? (
-              <div style={{ flex: 1, position: 'relative', width: '100%' }}>
-                <Bar
-                  data={{
-                    labels: topBooks.map(b =>
-                      b.title.length > 20 ? b.title.substring(0, 20) + '…' : b.title
-                    ),
-                    datasets: [{
-                      label: 'Total Borrows',
-                      data: topBooks.map(b => b.totalBorrows),
-                      backgroundColor: [
-                        '#003f7f', '#0052a3', '#1976d2', '#1565c0', '#1a56d0',
-                        '#2167d4', '#2571dc', '#2a7be5', '#2f85ed', '#348df5'
-                      ],
-                      borderRadius: 8,
-                      borderSkipped: false,
-                    }],
-                  }}
-                  options={{
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    animation: {
-                      duration: 800,
-                      easing: 'easeInOutQuart',
-                    },
-                    plugins: {
-                      legend: { 
-                        display: false,
-                      },
-                      tooltip: {
-                        backgroundColor: 'rgba(0, 63, 127, 0.9)',
-                        titleFont: { size: 13, weight: 600 },
-                        bodyFont: { size: 12 },
-                        padding: 12,
-                        borderRadius: 8,
-                        titleMarginBottom: 8,
-                        callbacks: { label: ctx => `Total Borrows: ${ctx.parsed.y}` },
-                      },
-                    },
-                    scales: {
-                      y: { 
-                        beginAtZero: true, 
-                        ticks: { font: { size: 12 }, color: '#6c757d' },
-                        grid: { color: 'rgba(0, 63, 127, 0.06)' }
-                      },
-                      x: { 
-                        ticks: { font: { size: 12 }, color: '#6c757d' },
-                        grid: { display: false }
-                      },
-                    },
-                  }}
-                />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {topBooks.map((book, idx) => (
+                  <div
+                    key={book.bookId}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '16px',
+                      padding: '16px',
+                      borderRadius: '12px',
+                      backgroundColor: '#f9fafb',
+                      border: '1px solid #e8eaed',
+                      transition: 'all 0.3s ease',
+                      cursor: 'default',
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.backgroundColor = '#f0f4f8';
+                      e.currentTarget.style.borderColor = '#c0c8d8';
+                      e.currentTarget.style.transform = 'translateX(4px)';
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.backgroundColor = '#f9fafb';
+                      e.currentTarget.style.borderColor = '#e8eaed';
+                      e.currentTarget.style.transform = 'translateX(0)';
+                    }}
+                  >
+                    {/* Rank Badge */}
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '48px',
+                      height: '48px',
+                      borderRadius: '12px',
+                      background: idx === 0 ? 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)' 
+                                  : idx === 1 ? 'linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%)'
+                                  : idx === 2 ? 'linear-gradient(135deg, #cd7f32 0%, #e8a76b 100%)'
+                                  : 'linear-gradient(135deg, #e8f0fe 0%, #c7d9f5 100%)',
+                      color: idx <= 2 ? '#000' : BLUE,
+                      fontWeight: '800',
+                      fontSize: '20px',
+                      flexShrink: 0,
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                    }}>
+                      {idx + 1}
+                    </div>
+
+                    {/* Book Info */}
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <h3 style={{
+                        fontSize: '14px',
+                        fontWeight: '700',
+                        color: '#1f2937',
+                        margin: '0 0 4px 0',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                      }}>
+                        {book.title}
+                      </h3>
+                      <p style={{
+                        fontSize: '13px',
+                        color: '#6c757d',
+                        margin: '0 0 6px 0',
+                      }}>
+                        by {book.author}
+                      </p>
+                      <div style={{
+                        fontSize: '12px',
+                        display: 'inline-block',
+                        padding: '3px 8px',
+                        backgroundColor: '#e8f0fe',
+                        color: BLUE,
+                        borderRadius: '4px',
+                        fontWeight: '600',
+                      }}>
+                        {book.categoryName}
+                      </div>
+                    </div>
+
+                    {/* Borrow Count */}
+                    <div style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: '4px',
+                      flexShrink: 0,
+                      padding: '0 12px',
+                      textAlign: 'center',
+                    }}>
+                      <div style={{
+                        fontSize: '18px',
+                        fontWeight: '800',
+                        color: BLUE,
+                      }}>
+                        {book.totalBorrows}
+                      </div>
+                      <div style={{
+                        fontSize: '11px',
+                        color: '#6c757d',
+                        fontWeight: '600',
+                      }}>
+                        Borrows
+                      </div>
+                    </div>
+
+                    {/* Trend Indicator */}
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '36px',
+                      height: '36px',
+                      borderRadius: '8px',
+                      backgroundColor: '#e6f4ea',
+                      flexShrink: 0,
+                    }}>
+                      <ArrowUp size={18} color="#10b981" />
+                    </div>
+                  </div>
+                ))}
               </div>
             ) : (
-              <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+              <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1, minHeight: '300px' }}>
                 <BookOpen size={48} style={{ marginBottom: '16px', opacity: 0.5 }} />
-                <div style={{ fontSize: '14px', fontWeight: '500', color: '#6c757d' }}>No borrowing data available.</div>
+                <div style={{ fontSize: '14px', fontWeight: '500', color: '#6c757d' }}>No trending books yet.</div>
               </div>
             )}
           </div>
