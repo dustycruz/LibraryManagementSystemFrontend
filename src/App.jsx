@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { AuthProvider } from './context/AuthProvider';
 import { useAuth } from './context/useAuth';
@@ -15,12 +15,31 @@ import Reports from './pages/Reports';
 import OverdueBooks from './pages/OverdueBooks';
 import Users from './pages/Users';
 
+const pageAnimationStyle = `
+  @keyframes pageFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .page-animate {
+    animation: pageFadeIn 0.25s ease both;
+  }
+`;
+
+function AnimatedPage({ children }) {
+  const { pathname } = useLocation();
+  return (
+    <div className="page-animate" key={pathname}>
+      {children}
+    </div>
+  );
+}
+
 function AppLayout({ children }) {
   return (
     <div>
       <Sidebar />
       <div className="main-content">
-        {children}
+        <AnimatedPage>{children}</AnimatedPage>
       </div>
     </div>
   );
@@ -97,6 +116,7 @@ export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <style>{pageAnimationStyle}</style>
         <AppRoutes />
         <ToastContainer position="top-right" autoClose={3000} />
       </BrowserRouter>

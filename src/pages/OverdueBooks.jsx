@@ -44,32 +44,25 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
         Page <strong style={{ color: '#003f7f' }}>{currentPage}</strong> of <strong>{totalPages}</strong>
       </span>
       <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-        <button
-          onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}
+        <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}
           style={currentPage === 1 ? disabledBtnStyle : btnBase}
           onMouseEnter={e => { if (currentPage !== 1) { e.currentTarget.style.backgroundColor = '#f0f4f8'; e.currentTarget.style.borderColor = '#c0c8d8'; }}}
           onMouseLeave={e => { if (currentPage !== 1) { e.currentTarget.style.backgroundColor = '#fff'; e.currentTarget.style.borderColor = '#e0e4ea'; }}}
-          aria-label="Previous page"
-        >‹</button>
+          aria-label="Previous page">‹</button>
         {getPages().map((page, idx) =>
           page === '...'
             ? <span key={`e-${idx}`} style={{ ...btnBase, border: 'none', backgroundColor: 'transparent', cursor: 'default', color: '#9ca3af' }}>…</span>
-            : <button
-                key={page}
-                onClick={() => page !== currentPage && onPageChange(page)}
+            : <button key={page} onClick={() => page !== currentPage && onPageChange(page)}
                 style={page === currentPage ? activeBtnStyle : btnBase}
                 onMouseEnter={e => { if (page !== currentPage) { e.currentTarget.style.backgroundColor = '#f0f4f8'; e.currentTarget.style.borderColor = '#c0c8d8'; }}}
                 onMouseLeave={e => { if (page !== currentPage) { e.currentTarget.style.backgroundColor = '#fff'; e.currentTarget.style.borderColor = '#e0e4ea'; }}}
-                aria-current={page === currentPage ? 'page' : undefined}
-              >{page}</button>
+                aria-current={page === currentPage ? 'page' : undefined}>{page}</button>
         )}
-        <button
-          onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages}
+        <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages}
           style={currentPage === totalPages ? disabledBtnStyle : btnBase}
           onMouseEnter={e => { if (currentPage !== totalPages) { e.currentTarget.style.backgroundColor = '#f0f4f8'; e.currentTarget.style.borderColor = '#c0c8d8'; }}}
           onMouseLeave={e => { if (currentPage !== totalPages) { e.currentTarget.style.backgroundColor = '#fff'; e.currentTarget.style.borderColor = '#e0e4ea'; }}}
-          aria-label="Next page"
-        >›</button>
+          aria-label="Next page">›</button>
       </div>
     </div>
   );
@@ -77,12 +70,24 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
 
 const PAGE_SIZE = 10;
 
+const inputStyle = {
+  padding: '9px 12px', fontSize: '14px', border: '1px solid #e0e4ea',
+  borderRadius: '8px', outline: 'none', backgroundColor: '#fff',
+  color: '#374151', transition: 'border-color 0.15s', fontFamily: 'inherit',
+};
+const selectStyle = {
+  ...inputStyle, cursor: 'pointer', paddingRight: '32px',
+  appearance: 'none',
+  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236c757d' d='M6 8L1 3h10z'/%3E%3C/svg%3E")`,
+  backgroundRepeat: 'no-repeat', backgroundPosition: 'right 10px center',
+};
+
 export default function OverdueBooks() {
   const [overdueBooks, setOverdueBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all'); // 'all' | 'paid' | 'unpaid'
+  const [statusFilter, setStatusFilter] = useState('all');
 
   useEffect(() => {
     let cancelled = false;
@@ -125,19 +130,9 @@ export default function OverdueBooks() {
   const handleSearch = (val) => { setSearch(val); setPage(1); };
   const handleStatus = (val) => { setStatusFilter(val); setPage(1); };
 
-  const inputStyle = {
-    padding: '9px 12px', fontSize: '14px', border: '1px solid #e0e4ea',
-    borderRadius: '8px', outline: 'none', backgroundColor: '#fff',
-    color: '#374151', transition: 'border-color 0.15s',
-  };
-  const selectStyle = {
-    ...inputStyle, cursor: 'pointer', paddingRight: '32px',
-    appearance: 'none', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236c757d' d='M6 8L1 3h10z'/%3E%3C/svg%3E")`,
-    backgroundRepeat: 'no-repeat', backgroundPosition: 'right 10px center',
-  };
-
   return (
     <div>
+      {/* Header */}
       <div style={{ marginBottom: '32px' }}>
         <h1 style={{ fontSize: '28px', fontWeight: '700', color: '#003f7f', marginBottom: '8px' }}>
           ⚠️ Overdue Books Report
@@ -147,14 +142,14 @@ export default function OverdueBooks() {
         </p>
       </div>
 
-      {/* Filters */}
+      {/* Filters — same card style as Books */}
       <div style={{
-        backgroundColor: '#fff', borderRadius: '12px', padding: '20px',
+        backgroundColor: '#ffffff', borderRadius: '12px', padding: '20px',
         marginBottom: '20px', boxShadow: '0 4px 12px rgba(0, 63, 127, 0.12)',
       }}>
-        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
-          <div style={{ flex: 1, minWidth: '240px', position: 'relative' }}>
-            
+        <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'flex-end' }}>
+          <div style={{ flex: 1, minWidth: '250px', position: 'relative' }}>
+            <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#9ca3af', fontSize: '14px', pointerEvents: 'none' }}>🔍</span>
             <input
               type="text"
               value={search}
@@ -165,14 +160,19 @@ export default function OverdueBooks() {
               onBlur={e => (e.target.style.borderColor = '#e0e4ea')}
             />
           </div>
-          <select value={statusFilter} onChange={e => handleStatus(e.target.value)} style={{ ...selectStyle, minWidth: '150px' }}
-            onFocus={e => (e.target.style.borderColor = '#003f7f')}
-            onBlur={e => (e.target.style.borderColor = '#e0e4ea')}
-          >
-            <option value="all">All Statuses</option>
-            <option value="unpaid">Unpaid</option>
-            <option value="paid">Paid</option>
-          </select>
+          <div style={{ minWidth: '160px' }}>
+            <select
+              value={statusFilter}
+              onChange={e => handleStatus(e.target.value)}
+              style={{ ...selectStyle, width: '100%', boxSizing: 'border-box' }}
+              onFocus={e => (e.target.style.borderColor = '#003f7f')}
+              onBlur={e => (e.target.style.borderColor = '#e0e4ea')}
+            >
+              <option value="all">All Statuses</option>
+              <option value="unpaid">Unpaid</option>
+              <option value="paid">Paid</option>
+            </select>
+          </div>
         </div>
       </div>
 
@@ -188,6 +188,7 @@ export default function OverdueBooks() {
           backgroundColor: '#fff', borderRadius: '12px',
           boxShadow: '0 4px 12px rgba(0, 63, 127, 0.12)', overflow: 'hidden',
         }}>
+          {/* Table header */}
           <div style={{
             padding: '20px 24px', borderBottom: '1px solid #e8eaed',
             display: 'flex', justifyContent: 'space-between', alignItems: 'center',

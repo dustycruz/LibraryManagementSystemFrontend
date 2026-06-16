@@ -89,6 +89,18 @@ const selectStyle = {
   backgroundRepeat: 'no-repeat', backgroundPosition: 'right 10px center',
 };
 
+const actionButtonStyle = (bgColor, textColor) => ({
+  padding: '8px 16px',
+  borderRadius: '6px',
+  border: 'none',
+  backgroundColor: bgColor,
+  color: textColor,
+  cursor: 'pointer',
+  fontSize: '13px',
+  fontWeight: '600',
+  transition: 'all 0.2s ease',
+});
+
 export default function Users() {
   const [users, setUsers] = useState([]);
   const [roles, setRoles] = useState([]);
@@ -199,7 +211,7 @@ export default function Users() {
     <div>
       <div style={{ marginBottom: '32px' }}>
         <h1 style={{ fontSize: '28px', fontWeight: '700', color: '#003f7f', marginBottom: '8px' }}>
-          👥 User Management
+          User Management
         </h1>
         <p style={{ fontSize: '14px', color: '#6c757d', margin: 0 }}>
           Manage library system users and their permissions
@@ -306,17 +318,37 @@ export default function Users() {
                     <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
                       <button
                         onClick={() => openEdit(u)}
-                        style={{ padding: '6px 12px', backgroundColor: 'transparent', color: '#003f7f', border: '1px solid #003f7f', borderRadius: '6px', fontSize: '12px', fontWeight: '600', cursor: 'pointer', transition: 'all 0.15s' }}
-                        onMouseEnter={e => { e.target.style.backgroundColor = '#003f7f'; e.target.style.color = '#fff'; }}
-                        onMouseLeave={e => { e.target.style.backgroundColor = 'transparent'; e.target.style.color = '#003f7f'; }}
-                      >Edit</button>
+                        style={actionButtonStyle('#003F7F', '#fff')}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = '#002d5c';
+                          e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 63, 127, 0.3)';
+                          e.currentTarget.style.transform = 'translateY(-1px)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = '#003F7F';
+                          e.currentTarget.style.boxShadow = 'none';
+                          e.currentTarget.style.transform = 'translateY(0)';
+                        }}
+                      >
+                        Edit
+                      </button>
                       {u.isActive && (
                         <button
                           onClick={() => handleDeactivate(u.userId)}
-                          style={{ padding: '6px 12px', backgroundColor: 'transparent', color: '#ef4444', border: '1px solid #ef4444', borderRadius: '6px', fontSize: '12px', fontWeight: '600', cursor: 'pointer', transition: 'all 0.15s' }}
-                          onMouseEnter={e => { e.target.style.backgroundColor = '#ef4444'; e.target.style.color = '#fff'; }}
-                          onMouseLeave={e => { e.target.style.backgroundColor = 'transparent'; e.target.style.color = '#ef4444'; }}
-                        >Deactivate</button>
+                          style={actionButtonStyle('#d32f2f', '#fff')}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = '#b71c1c';
+                            e.currentTarget.style.boxShadow = '0 2px 8px rgba(211, 47, 47, 0.3)';
+                            e.currentTarget.style.transform = 'translateY(-1px)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = '#d32f2f';
+                            e.currentTarget.style.boxShadow = 'none';
+                            e.currentTarget.style.transform = 'translateY(0)';
+                          }}
+                        >
+                          Deactivate
+                        </button>
                       )}
                     </div>
                   </td>
@@ -326,7 +358,7 @@ export default function Users() {
           </table>
         </div>
 
-        <div style={{ padding: '16px 24px', borderTop: '1px solid #e8eaed', backgroundColor: '#fafbfc' }}>
+        <div style={{ padding: '20px 24px', borderTop: '1px solid #e8eaed', backgroundColor: '#fafbfc' }}>
           <Pagination
             currentPage={safePage}
             totalPages={totalPages}
@@ -383,14 +415,14 @@ export default function Users() {
               <button
                 onClick={() => setEditUser(null)}
                 style={{ padding: '8px 16px', backgroundColor: 'transparent', color: '#6c757d', border: '1px solid #e8eaed', borderRadius: '8px', fontSize: '14px', fontWeight: '600', cursor: 'pointer', transition: 'all 0.15s' }}
-                onMouseEnter={e => { e.target.style.backgroundColor = '#f8fafb'; e.target.style.borderColor = '#6c757d'; }}
-                onMouseLeave={e => { e.target.style.backgroundColor = 'transparent'; e.target.style.borderColor = '#e8eaed'; }}
+                onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#f8fafb'; e.currentTarget.style.borderColor = '#6c757d'; }}
+                onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.borderColor = '#e8eaed'; }}
               >Cancel</button>
               <button
                 onClick={handleSave} disabled={saving}
                 style={{ padding: '8px 16px', backgroundColor: '#003f7f', color: '#fff', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: '600', cursor: saving ? 'not-allowed' : 'pointer', opacity: saving ? 0.7 : 1, transition: 'all 0.15s' }}
-                onMouseEnter={e => !saving && (e.target.style.backgroundColor = '#0052a3')}
-                onMouseLeave={e => !saving && (e.target.style.backgroundColor = '#003f7f')}
+                onMouseEnter={e => !saving && (e.currentTarget.style.backgroundColor = '#0052a3')}
+                onMouseLeave={e => !saving && (e.currentTarget.style.backgroundColor = '#003f7f')}
               >{saving ? 'Saving...' : 'Save Changes'}</button>
             </div>
           </div>

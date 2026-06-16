@@ -1,19 +1,31 @@
-import { formatDate, formatCurrency, getStatusBadge } from '../../utils/helpers';
 import { useAuth } from '../../context/useAuth';
+import { formatDate, formatCurrency } from '../../utils/helpers';
+
+const STATUS_CLASS = {
+  Borrowed: 'status-borrowed',
+  Returned: 'status-returned',
+  Overdue:  'status-overdue',
+  Lost:     'status-lost',
+};
 
 export default function BorrowTable({ borrows, onReturn, loading }) {
   const { isAdminOrLibrarian } = useAuth();
 
   if (loading) return (
-    <div className="text-center p-4">
-      <div className="spinner-border text-primary" />
+    <div className="spinner-wrap"><div className="spinner" /></div>
+  );
+
+  if (borrows.length === 0) return (
+    <div className="empty-state">
+      <div className="empty-icon">📋</div>
+      <div className="empty-text">No borrow records found</div>
     </div>
   );
 
   return (
-    <div className="table-responsive">
-      <table className="table table-hover align-middle bg-white">
-        <thead className="table-light">
+    <div className="lms-table-wrap">
+      <table className="lms-table">
+        <thead>
           <tr>
             <th>#</th>
             {isAdminOrLibrarian() && <th>Member</th>}
@@ -22,75 +34,77 @@ export default function BorrowTable({ borrows, onReturn, loading }) {
             <th>Due Date</th>
             <th>Status</th>
             <th>Fine</th>
-            {isAdminOrLibrarian() && <th>Action</th>}
+            {isAdminOrLibrarian() && <th style={{ textAlign: 'right' }}>Action</th>}
           </tr>
         </thead>
         <tbody>
-          {borrows.length === 0 ? (
-            <tr>
-              <td colSpan={8} className="text-center text-muted py-4">
-                No records found.
-              </td>
-            </tr>
-          ) : borrows.map(b => (
+          {borrows.map(b => (
             <tr key={b.borrowId}>
-              <td><small>{b.borrowId}</small></td>
+              <td><span className="mono text-muted">{b.borrowId}</span></td>
 
               {isAdminOrLibrarian() && (
                 <td>
-                  <div className="fw-semibold">{b.memberName}</div>
-                  <small className="text-muted">{b.memberEmail}</small>
+                  <div style={{ fontWeight: 600, fontSize: 14 }}>{b.memberName}</div>
+                  <div style={{ fontSize: 12, color: 'var(--outline)' }}>{b.memberEmail}</div>
                 </td>
               )}
 
               <td>
-                <div className="fw-semibold">{b.bookTitle}</div>
-                <small className="text-muted">{b.bookISBN}</small>
+                <div style={{ fontWeight: 600, fontSize: 14 }}>{b.bookTitle}</div>
+                <div style={{ fontSize: 12, color: 'var(--outline)' }}>{b.bookISBN}</div>
               </td>
 
-              <td>{formatDate(b.borrowDate)}</td>
+              <td style={{ fontSize: 13, color: 'var(--on-surface-var)' }}>
+                {formatDate(b.borrowDate)}
+              </td>
 
               <td>
-                <span className={b.daysOverdue > 0 && b.status !== 'Returned' ? 'text-danger fw-bold' : ''}>
+                <div style={{
+                  fontSize: 13,
+                  fontWeight: b.daysOverdue > 0 && b.status !== 'Returned' ? 600 : 400,
+                  color: b.daysOverdue > 0 && b.status !== 'Returned' ? 'var(--danger)' : 'var(--on-surface-var)',
+                }}>
                   {formatDate(b.dueDate)}
-                </span>
+                </div>
                 {b.daysOverdue > 0 && b.status !== 'Returned' && (
-                  <div>
-                    <small className="text-danger">{b.daysOverdue} days overdue</small>
+                  <div style={{ fontSize: 11, color: 'var(--danger)', marginTop: 2 }}>
+                    {b.daysOverdue} days overdue
                   </div>
                 )}
               </td>
 
               <td>
-                <span className={`badge ${getStatusBadge(b.status)}`}>
+                <span className={`lms-badge ${STATUS_CLASS[b.status] || 'gray'}`}>
                   {b.status}
                 </span>
               </td>
 
               <td>
                 {b.fineAmount > 0 ? (
-                  <span className={b.fineIsPaid ? 'text-success' : 'text-danger'}>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: b.fineIsPaid ? 'var(--success)' : 'var(--danger)' }}>
                     {formatCurrency(b.fineAmount)}
-                    {b.fineIsPaid ? ' ✓' : ' ✗'}
+                    <span style={{ fontSize: 11, marginLeft: 4 }}>{b.fineIsPaid ? '✓' : '✗'}</span>
                   </span>
-                ) : '-'}
+                ) : (
+                  <span style={{ color: 'var(--outline)', fontSize: 13 }}>—</span>
+                )}
               </td>
 
               {isAdminOrLibrarian() && (
-                <td>
+                <td style={{ textAlign: 'right' }}>
                   {b.status !== 'Returned' ? (
                     <button
-                      className="btn btn-sm btn-success"
+                      className="lms-btn success sm"
                       onClick={() => {
-                        if (window.confirm(`Return "${b.bookTitle}"?`)) {
+                        if (window.confirm(`Mark as return "${b.bookTitle}"?`)) {
                           onReturn(b.borrowId);
                         }
                       }}
                     >
-                      Return
+                      Mark as Return
                     </button>
                   ) : (
-                    <span className="text-muted small">—</span>
+                    <span style={{ fontSize: 12, color: 'var(--outline)' }}>—</span>
                   )}
                 </td>
               )}

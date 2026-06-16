@@ -58,7 +58,7 @@ export default function Login() {
     try {
       const res = await login(loginForm);
       authLogin(res.data.data);
-      toast.success('✨ Logged in successfully!', {
+      toast.success('Logged in successfully!', {
         position: 'bottom-right',
         autoClose: 2500,
         hideProgressBar: true,
@@ -92,7 +92,7 @@ export default function Login() {
         confirmPassword: registerForm.confirmPassword,
       });
       authLogin(res.data.data);
-      toast.success('🎉 Account created successfully!', {
+      toast.success('Account created successfully!', {
         position: 'bottom-right',
         autoClose: 2500,
         hideProgressBar: true,
@@ -111,6 +111,18 @@ export default function Login() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const inputStyle = {
+    width: '100%',
+    padding: '10px 12px',
+    fontSize: '14px',
+    borderRadius: '8px',
+    backgroundColor: '#ffffff',
+    color: '#1a1a1a',
+    transition: 'all 0.3s',
+    boxSizing: 'border-box',
+    outline: 'none',
   };
 
   return (
@@ -191,20 +203,12 @@ export default function Login() {
                   </label>
                   <input
                     type="email"
-                    placeholder="you@example.com"
+                    placeholder="name@example.com"
                     value={loginForm.email}
                     onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
                     style={{
-                      width: '100%',
-                      padding: '10px 12px',
-                      fontSize: '14px',
+                      ...inputStyle,
                       border: errors.email ? '1px solid #dc3545' : '1px solid #e8eaed',
-                      borderRadius: '8px',
-                      backgroundColor: '#ffffff',
-                      color: '#1a1a1a',
-                      transition: 'all 0.3s',
-                      boxSizing: 'border-box',
-                      outline: 'none'
                     }}
                     onFocus={(e) => !errors.email && (e.target.style.borderColor = '#003f7f')}
                     onBlur={(e) => !errors.email && (e.target.style.borderColor = '#e8eaed')}
@@ -217,20 +221,12 @@ export default function Login() {
                   </label>
                   <input
                     type="password"
-                    placeholder="••••••••"
+                    placeholder="Enter your password"
                     value={loginForm.password}
                     onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
                     style={{
-                      width: '100%',
-                      padding: '10px 12px',
-                      fontSize: '14px',
+                      ...inputStyle,
                       border: errors.password ? '1px solid #dc3545' : '1px solid #e8eaed',
-                      borderRadius: '8px',
-                      backgroundColor: '#ffffff',
-                      color: '#1a1a1a',
-                      transition: 'all 0.3s',
-                      boxSizing: 'border-box',
-                      outline: 'none'
                     }}
                     onFocus={(e) => !errors.password && (e.target.style.borderColor = '#003f7f')}
                     onBlur={(e) => !errors.password && (e.target.style.borderColor = '#e8eaed')}
@@ -254,10 +250,10 @@ export default function Login() {
                     transition: 'all 0.3s',
                     boxShadow: '0 2px 8px rgba(0, 63, 127, 0.25)'
                   }}
-                  onMouseEnter={(e) => !loading && (e.target.style.backgroundColor = '#0052a3')}
-                  onMouseLeave={(e) => !loading && (e.target.style.backgroundColor = '#003f7f')}
+                  onMouseEnter={(e) => !loading && (e.currentTarget.style.backgroundColor = '#0052a3')}
+                  onMouseLeave={(e) => !loading && (e.currentTarget.style.backgroundColor = '#003f7f')}
                 >
-                  {loading ? '🔄 Signing in...' : 'Sign In'}
+                  {loading ? 'Signing in...' : 'Sign In'}
                 </button>
               </form>
             )}
@@ -276,16 +272,11 @@ export default function Login() {
                       value={registerForm.firstName}
                       onChange={(e) => setRegisterForm({ ...registerForm, firstName: e.target.value })}
                       style={{
-                        width: '100%',
-                        padding: '10px 12px',
-                        fontSize: '14px',
+                        ...inputStyle,
                         border: errors.firstName ? '1px solid #dc3545' : '1px solid #e8eaed',
-                        borderRadius: '8px',
-                        backgroundColor: '#ffffff',
-                        color: '#1a1a1a',
-                        boxSizing: 'border-box',
-                        outline: 'none'
                       }}
+                      onFocus={(e) => !errors.firstName && (e.target.style.borderColor = '#003f7f')}
+                      onBlur={(e) => !errors.firstName && (e.target.style.borderColor = '#e8eaed')}
                     />
                     {errors.firstName && <div style={{ color: '#dc3545', fontSize: '12px', marginTop: '6px' }}>{errors.firstName}</div>}
                   </div>
@@ -299,16 +290,11 @@ export default function Login() {
                       value={registerForm.lastName}
                       onChange={(e) => setRegisterForm({ ...registerForm, lastName: e.target.value })}
                       style={{
-                        width: '100%',
-                        padding: '10px 12px',
-                        fontSize: '14px',
+                        ...inputStyle,
                         border: errors.lastName ? '1px solid #dc3545' : '1px solid #e8eaed',
-                        borderRadius: '8px',
-                        backgroundColor: '#ffffff',
-                        color: '#1a1a1a',
-                        boxSizing: 'border-box',
-                        outline: 'none'
                       }}
+                      onFocus={(e) => !errors.lastName && (e.target.style.borderColor = '#003f7f')}
+                      onBlur={(e) => !errors.lastName && (e.target.style.borderColor = '#e8eaed')}
                     />
                     {errors.lastName && <div style={{ color: '#dc3545', fontSize: '12px', marginTop: '6px' }}>{errors.lastName}</div>}
                   </div>
@@ -319,20 +305,15 @@ export default function Login() {
                   </label>
                   <input
                     type="email"
-                    placeholder="you@example.com"
+                    placeholder="name@example.com"
                     value={registerForm.email}
                     onChange={(e) => setRegisterForm({ ...registerForm, email: e.target.value })}
                     style={{
-                      width: '100%',
-                      padding: '10px 12px',
-                      fontSize: '14px',
+                      ...inputStyle,
                       border: errors.email ? '1px solid #dc3545' : '1px solid #e8eaed',
-                      borderRadius: '8px',
-                      backgroundColor: '#ffffff',
-                      color: '#1a1a1a',
-                      boxSizing: 'border-box',
-                      outline: 'none'
                     }}
+                    onFocus={(e) => !errors.email && (e.target.style.borderColor = '#003f7f')}
+                    onBlur={(e) => !errors.email && (e.target.style.borderColor = '#e8eaed')}
                   />
                   {errors.email && <div style={{ color: '#dc3545', fontSize: '12px', marginTop: '6px' }}>{errors.email}</div>}
                 </div>
@@ -342,24 +323,19 @@ export default function Login() {
                   </label>
                   <input
                     type="password"
-                    placeholder="••••••••"
+                    placeholder="Min. 8 characters required"
                     value={registerForm.password}
                     onChange={(e) => setRegisterForm({ ...registerForm, password: e.target.value })}
                     style={{
-                      width: '100%',
-                      padding: '10px 12px',
-                      fontSize: '14px',
+                      ...inputStyle,
                       border: errors.password ? '1px solid #dc3545' : '1px solid #e8eaed',
-                      borderRadius: '8px',
-                      backgroundColor: '#ffffff',
-                      color: '#1a1a1a',
-                      boxSizing: 'border-box',
-                      outline: 'none'
                     }}
+                    onFocus={(e) => !errors.password && (e.target.style.borderColor = '#003f7f')}
+                    onBlur={(e) => !errors.password && (e.target.style.borderColor = '#e8eaed')}
                   />
                   {errors.password && <div style={{ color: '#dc3545', fontSize: '12px', marginTop: '6px' }}>{errors.password}</div>}
                   <small style={{ color: '#6c757d', fontSize: '12px', marginTop: '6px', display: 'block' }}>
-                    8+ chars, uppercase, lowercase, number, special character
+                    Must include: uppercase, lowercase, number, special character
                   </small>
                 </div>
                 <div style={{ marginBottom: '24px' }}>
@@ -368,20 +344,15 @@ export default function Login() {
                   </label>
                   <input
                     type="password"
-                    placeholder="••••••••"
+                    placeholder="Re-enter your password"
                     value={registerForm.confirmPassword}
                     onChange={(e) => setRegisterForm({ ...registerForm, confirmPassword: e.target.value })}
                     style={{
-                      width: '100%',
-                      padding: '10px 12px',
-                      fontSize: '14px',
+                      ...inputStyle,
                       border: errors.confirmPassword ? '1px solid #dc3545' : '1px solid #e8eaed',
-                      borderRadius: '8px',
-                      backgroundColor: '#ffffff',
-                      color: '#1a1a1a',
-                      boxSizing: 'border-box',
-                      outline: 'none'
                     }}
+                    onFocus={(e) => !errors.confirmPassword && (e.target.style.borderColor = '#003f7f')}
+                    onBlur={(e) => !errors.confirmPassword && (e.target.style.borderColor = '#e8eaed')}
                   />
                   {errors.confirmPassword && <div style={{ color: '#dc3545', fontSize: '12px', marginTop: '6px' }}>{errors.confirmPassword}</div>}
                 </div>
@@ -402,10 +373,10 @@ export default function Login() {
                     transition: 'all 0.3s',
                     boxShadow: '0 2px 8px rgba(0, 63, 127, 0.25)'
                   }}
-                  onMouseEnter={(e) => !loading && (e.target.style.backgroundColor = '#0052a3')}
-                  onMouseLeave={(e) => !loading && (e.target.style.backgroundColor = '#003f7f')}
+                  onMouseEnter={(e) => !loading && (e.currentTarget.style.backgroundColor = '#0052a3')}
+                  onMouseLeave={(e) => !loading && (e.currentTarget.style.backgroundColor = '#003f7f')}
                 >
-                  {loading ? '🔄 Creating account...' : 'Create Account'}
+                  {loading ? 'Creating account...' : 'Create Account'}
                 </button>
               </form>
             )}
