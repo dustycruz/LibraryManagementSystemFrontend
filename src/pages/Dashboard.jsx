@@ -17,6 +17,18 @@ import {
 import { formatCurrency } from '../utils/helpers';
 import { useAuth } from '../context/useAuth';
 import LoadingSpinner from '../components/common/LoadingSpinner';
+import { 
+  TrendingUp, 
+  BookOpen, 
+  CheckCircle, 
+  AlertCircle, 
+  Users, 
+  DollarSign, 
+  BarChart3, 
+  Activity,
+  Flame,
+  ArrowUp
+} from 'lucide-react';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
@@ -25,17 +37,15 @@ const CARD = { backgroundColor: '#ffffff', borderRadius: '12px', boxShadow: '0 4
 const PILL = (bg) => ({ display: 'inline-block', padding: '4px 10px', backgroundColor: bg, color: 'white', borderRadius: '6px', fontSize: '12px', fontWeight: '600' });
 
 const ADMIN_STATS = [
-  { key: 'totalBooks',           label: 'Total Books',      icon: '📚', bg: 'linear-gradient(135deg, #e8f0fe 0%, #c7d9f5 100%)', color: '#1a73e8' },
-  { key: 'totalAvailableCopies', label: 'Available Copies', icon: '✅', bg: 'linear-gradient(135deg, #e6f4ea 0%, #b7e4c7 100%)', color: '#137333' },
-  { key: 'activeBorrows',        label: 'Active Borrows',   icon: '🔄', bg: 'linear-gradient(135deg, #e3f9ff 0%, #b3e5fc 100%)', color: '#0277bd' },
-  { key: 'overdueCount',         label: 'Overdue',          icon: '⚠️', bg: 'linear-gradient(135deg, #fff8e1 0%, #ffe0b2 100%)', color: '#f57f17' },
-  { key: 'totalActiveUsers',     label: 'Active Users',     icon: '👥', bg: 'linear-gradient(135deg, #f3e8fd 0%, #e1bee7 100%)', color: '#7b1fa2' },
-  { key: 'totalUnpaidFines',     label: 'Unpaid Fines',     icon: '💰', bg: 'linear-gradient(135deg, #fce8e6 0%, #ffcccc 100%)', color: '#c5221f', format: formatCurrency },
+  { key: 'totalBooks',           label: 'Total Books',      Icon: BookOpen, bg: 'linear-gradient(135deg, #e8f0fe 0%, #c7d9f5 100%)', color: '#1a73e8' },
+  { key: 'totalAvailableCopies', label: 'Available Copies', Icon: CheckCircle, bg: 'linear-gradient(135deg, #e6f4ea 0%, #b7e4c7 100%)', color: '#137333' },
+  { key: 'activeBorrows',        label: 'Active Borrows',   Icon: TrendingUp, bg: 'linear-gradient(135deg, #e3f9ff 0%, #b3e5fc 100%)', color: '#0277bd' },
+  { key: 'overdueCount',         label: 'Overdue',          Icon: AlertCircle, bg: 'linear-gradient(135deg, #fff8e1 0%, #ffe0b2 100%)', color: '#f57f17' },
+  { key: 'totalActiveUsers',     label: 'Active Users',     Icon: Users, bg: 'linear-gradient(135deg, #f3e8fd 0%, #e1bee7 100%)', color: '#7b1fa2' },
+  { key: 'totalUnpaidFines',     label: 'Unpaid Fines',     Icon: DollarSign, bg: 'linear-gradient(135deg, #fce8e6 0%, #ffcccc 100%)', color: '#c5221f', format: formatCurrency },
 ];
 
-function getInitials(name = '') {
-  return name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
-}
+
 
 export default function Dashboard() {
   const { isAdminOrLibrarian } = useAuth();
@@ -78,7 +88,6 @@ export default function Dashboard() {
     // MEMBER VIEW - Trending Books Only
     return (
       <div style={{ backgroundColor: '#f8fafb', minHeight: '100vh', paddingBottom: '32px' }}>
-        {/* ── PAGE HEADER ── */}
         <div style={{ marginBottom: '32px', paddingTop: '8px' }}>
           <h1 style={{ fontSize: '32px', fontWeight: '800', color: BLUE, marginBottom: '8px' }}>
             Dashboard
@@ -88,7 +97,6 @@ export default function Dashboard() {
           </p>
         </div>
 
-        {/* ── TRENDING BOOKS ── */}
         <div style={{ ...CARD, border: '1px solid rgba(0, 63, 127, 0.06)' }}>
           <div style={{
             display: 'flex', 
@@ -98,7 +106,7 @@ export default function Dashboard() {
             borderBottom: '2px solid #f0f2f5',
             backgroundColor: 'linear-gradient(135deg, #f8fafb 0%, #ffffff 100%)',
           }}>
-            <div style={{ fontSize: '20px' }}>🔥</div>
+            <Flame size={20} color={BLUE} />
             <h2 style={{ fontSize: '18px', fontWeight: '700', color: BLUE, margin: 0 }}>
               Trending Books
             </h2>
@@ -225,19 +233,16 @@ export default function Dashboard() {
                       height: '36px',
                       borderRadius: '8px',
                       backgroundColor: '#e6f4ea',
-                      color: '#10b981',
-                      fontWeight: '700',
-                      fontSize: '16px',
                       flexShrink: 0,
                     }}>
-                      ↑
+                      <ArrowUp size={18} color="#10b981" />
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
               <div style={{ textAlign: 'center', padding: '60px 20px', color: '#6c757d' }}>
-                <div style={{ fontSize: '48px', marginBottom: '16px' }}>📚</div>
+                <BookOpen size={48} style={{ marginBottom: '16px', opacity: 0.5 }} />
                 <div style={{ fontSize: '14px', fontWeight: '500' }}>No trending books yet.</div>
               </div>
             )}
@@ -250,7 +255,6 @@ export default function Dashboard() {
   // ADMIN/LIBRARIAN VIEW - Full Dashboard
   return (
     <div style={{ backgroundColor: '#f8fafb', minHeight: '100vh', paddingBottom: '32px' }}>
-      {/* ── PAGE HEADER ── */}
       <div style={{ marginBottom: '32px', paddingTop: '8px' }}>
         <h1 style={{ fontSize: '32px', fontWeight: '800', color: BLUE, marginBottom: '8px' }}>
           Dashboard
@@ -268,7 +272,7 @@ export default function Dashboard() {
           gap: '20px',
           marginBottom: '32px',
         }}>
-          {ADMIN_STATS.map(({ key, label, icon, bg, format }) => {
+          {ADMIN_STATS.map(({ key, label, Icon, bg, format }) => {
             const raw   = stats[key] ?? 0;
             const value = format ? format(raw) : raw;
             return (
@@ -295,7 +299,6 @@ export default function Dashboard() {
                   e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
-                {/* Background decoration */}
                 <div style={{
                   position: 'absolute',
                   top: '-40px',
@@ -316,12 +319,11 @@ export default function Dashboard() {
                   display: 'flex', 
                   alignItems: 'center',
                   justifyContent: 'center', 
-                  fontSize: '28px', 
                   flexShrink: 0,
                   zIndex: 1,
                   boxShadow: '0 4px 12px rgba(0, 63, 127, 0.1)',
                 }}>
-                  {icon}
+                  <Icon size={28} color={label === 'Unpaid Fines' ? '#c5221f' : label === 'Active Users' ? '#7b1fa2' : label === 'Overdue' ? '#f57f17' : label === 'Active Borrows' ? '#0277bd' : label === 'Available Copies' ? '#137333' : '#1a73e8'} />
                 </div>
 
                 <div style={{ position: 'relative', zIndex: 1 }}>
@@ -357,7 +359,7 @@ export default function Dashboard() {
             backgroundColor: 'linear-gradient(135deg, #f8fafb 0%, #ffffff 100%)',
             flexShrink: 0,
           }}>
-            <div style={{ fontSize: '20px' }}>📊</div>
+            <BarChart3 size={20} color={BLUE} />
             <h2 style={{ fontSize: '18px', fontWeight: '700', color: BLUE, margin: 0 }}>
               Top 10 Most Borrowed Books
             </h2>
@@ -423,7 +425,7 @@ export default function Dashboard() {
               </div>
             ) : (
               <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-                <div style={{ fontSize: '48px', marginBottom: '16px' }}>📚</div>
+                <BookOpen size={48} style={{ marginBottom: '16px', opacity: 0.5 }} />
                 <div style={{ fontSize: '14px', fontWeight: '500', color: '#6c757d' }}>No borrowing data available.</div>
               </div>
             )}
@@ -440,7 +442,7 @@ export default function Dashboard() {
             borderBottom: '2px solid #f0f2f5',
             backgroundColor: 'linear-gradient(135deg, #f8fafb 0%, #ffffff 100%)',
           }}>
-            <div style={{ fontSize: '20px' }}>👥</div>
+            <Activity size={20} color={BLUE} />
             <h2 style={{ fontSize: '18px', fontWeight: '700', color: BLUE, margin: 0 }}>
               Recent User Activity
             </h2>
@@ -468,7 +470,6 @@ export default function Dashboard() {
                     e.currentTarget.style.backgroundColor = 'transparent';
                   }}
                 >
-                  {/* avatar */}
                   <div style={{
                     width: '40px', 
                     height: '40px', 
@@ -483,7 +484,7 @@ export default function Dashboard() {
                     flexShrink: 0,
                     boxShadow: '0 2px 8px rgba(0, 63, 127, 0.1)',
                   }}>
-                    {getInitials(u.memberName)}
+                    {u.memberName.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()}
                   </div>
 
                   <div style={{ flex: 1, minWidth: 0 }}>
@@ -505,7 +506,7 @@ export default function Dashboard() {
               ))
             ) : (
               <div style={{ textAlign: 'center', padding: '40px 20px', color: '#6c757d' }}>
-                <div style={{ fontSize: '32px', marginBottom: '8px' }}>👥</div>
+                <Users size={32} style={{ marginBottom: '8px', opacity: 0.5 }} />
                 <div style={{ fontSize: '13px' }}>No activity yet.</div>
               </div>
             )}

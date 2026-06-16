@@ -1,7 +1,17 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/useAuth';
+import { 
+  Home, 
+  BookOpen, 
+  Clock, 
+  RotateCcw, 
+  AlertCircle, 
+  BarChart3, 
+  Users, 
+  LogOut 
+} from 'lucide-react';
 
-function NavItem({ to, icon, label }) {
+function NavItem({ to, Icon, label }) {
   return (
     <NavLink
       to={to}
@@ -9,7 +19,7 @@ function NavItem({ to, icon, label }) {
         isActive ? 'nav-link active' : 'nav-link'
       }
     >
-      <span className="nav-icon">{icon}</span>
+      <Icon size={20} />
       <span>{label}</span>
     </NavLink>
   );
@@ -23,128 +33,70 @@ export default function Sidebar() {
   const { user, logout, hasRole } = useAuth();
   const navigate = useNavigate();
 
-  const isAdminOrLibrarian =
-    hasRole('Admin') || hasRole('Librarian');
-
+  const isAdminOrLibrarian = hasRole('Admin') || hasRole('Librarian');
   const isAdmin = hasRole('Admin');
 
-  const initials =
-    user?.fullName
-      ?.split(' ')
-      .map(n => n[0])
-      .join('')
-      .slice(0, 2)
-      .toUpperCase() || 'U';
+  const initials = user?.fullName?.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() || 'U';
+  const primaryRole = user?.roles?.[0] || 'Member';
 
   const handleLogout = () => {
     logout();
     navigate('/login');
   };
 
-  const primaryRole =
-    user?.roles?.[0] || 'Member';
-
   return (
     <aside className="sidebar">
-      {/* Logo */}
       <div className="sidebar-logo">
         <div className="logo-row">
-          <div className="logo-icon">📚</div>
-
+          <BookOpen size={32} color="#003f7f" />
           <div>
-            <div className="logo-title">
-              Open Library
-            </div>
-
-            <div className="logo-subtitle">
-              Library Management System
-            </div>
+            <div className="logo-title">Open Library</div>
+            <div className="logo-subtitle">Management System</div>
           </div>
         </div>
       </div>
 
-      {/* User Card */}
       <div className="sidebar-user">
-        <div className="user-avatar">
-          {initials}
-        </div>
-
+        <div className="user-avatar">{initials}</div>
         <div className="user-info">
-          <div className="user-name">
-            {user?.fullName}
-          </div>
-
-          <div className="user-role">
-            {primaryRole}
-          </div>
+          <div className="user-name">{user?.fullName}</div>
+          <div className="user-role">{primaryRole}</div>
         </div>
       </div>
 
-      {/* Navigation */}
       <nav className="sidebar-nav">
         <SectionLabel text="MAIN MENU" />
-
-        <NavItem
-          to="/dashboard"
-          icon="🏠"
-          label="Dashboard"
-        />
-
-        <NavItem
-          to="/books"
-          icon="📚"
-          label="Catalog"
-        />
-
-        <NavItem
-          to="/my-history"
-          icon="🕓"
-          label="My Borrows"
-        />
+        <NavItem to="/dashboard" Icon={Home} label="Dashboard" />
+        <NavItem to="/books" Icon={BookOpen} label="Catalog" />
+        <NavItem to="/my-history" Icon={Clock} label="My Borrows" />
 
         {isAdminOrLibrarian && (
           <>
             <SectionLabel text="MANAGEMENT" />
-
-            <NavItem
-              to="/borrows"
-              icon="🔄"
-              label="Circulation"
-            />
-
-            <NavItem
-              to="/overdue-books"
-              icon="⚠️"
-              label="Overdue"
-            />
-
-            <NavItem
-              to="/reports"
-              icon="📊"
-              label="Reports"
-            />
+            <NavItem to="/borrows" Icon={RotateCcw} label="Circulation" />
+            <NavItem to="/overdue-books" Icon={AlertCircle} label="Overdue" />
+            <NavItem to="/reports" Icon={BarChart3} label="Reports" />
           </>
         )}
 
         {isAdmin && (
           <>
             <SectionLabel text="ADMINISTRATION" />
-
-            <NavItem
-              to="/users"
-              icon="👥"
-              label="Patrons"
-            />
+            <NavItem to="/users" Icon={Users} label="Patrons" />
           </>
         )}
       </nav>
 
-      {/* Footer */}
-      <div className="sidebar-logout" style={{ borderTop: "none" }}>
+      <div className="sidebar-logout">
         <button
           onClick={handleLogout}
           className="logout-btn"
-          style={{ color: '#ef4444' }}
+          style={{ 
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            color: '#ef4444' 
+          }}
           onMouseEnter={e => {
             e.currentTarget.style.backgroundColor = '#fef2f2';
             e.currentTarget.style.color = '#dc2626';
@@ -154,7 +106,8 @@ export default function Sidebar() {
             e.currentTarget.style.color = '#ef4444';
           }}
         >
-          ← Sign Out
+          <LogOut size={20} />
+          Sign Out
         </button>
       </div>
     </aside>
