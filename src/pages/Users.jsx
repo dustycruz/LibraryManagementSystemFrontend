@@ -225,16 +225,15 @@ export default function Users() {
       }}>
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
           <div style={{ flex: 1, minWidth: '240px', position: 'relative' }}>
-            <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#9ca3af', fontSize: '14px', pointerEvents: 'none' }}>🔍</span>
-            <input
-              type="text"
-              value={search}
-              onChange={e => handleSearch(e.target.value)}
-              placeholder="Search by name or email..."
-              style={{ ...inputStyle, width: '100%', paddingLeft: '36px', boxSizing: 'border-box' }}
-              onFocus={e => (e.target.style.borderColor = '#003f7f')}
-              onBlur={e => (e.target.style.borderColor = '#e0e4ea')}
-            />
+<input
+  type="text"
+  value={search}
+  onChange={e => handleSearch(e.target.value)}
+  placeholder="Search by name or email..."
+  style={{ ...inputStyle, width: '100%', boxSizing: 'border-box' }}
+  onFocus={e => (e.target.style.borderColor = '#003f7f')}
+  onBlur={e => (e.target.style.borderColor = '#e0e4ea')}
+/>
           </div>
           <select value={roleFilter} onChange={e => handleRoleFilter(e.target.value)} style={{ ...selectStyle, minWidth: '150px' }}
             onFocus={e => (e.target.style.borderColor = '#003f7f')}

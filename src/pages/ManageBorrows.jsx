@@ -125,7 +125,7 @@ export default function ManageBorrows() {
     <div>
       <div style={{ marginBottom: '32px' }}>
         <h1 style={{ fontSize: '28px', fontWeight: '700', color: '#003f7f', marginBottom: '8px' }}>
-          🔄 Manage Borrows
+          Manage Borrows
         </h1>
         <p style={{ fontSize: '14px', color: '#6c757d', margin: 0 }}>
           Monitor and manage all book borrowing transactions

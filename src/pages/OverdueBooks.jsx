@@ -135,7 +135,7 @@ export default function OverdueBooks() {
       {/* Header */}
       <div style={{ marginBottom: '32px' }}>
         <h1 style={{ fontSize: '28px', fontWeight: '700', color: '#003f7f', marginBottom: '8px' }}>
-          ⚠️ Overdue Books Report
+          Overdue Books Report
         </h1>
         <p style={{ fontSize: '14px', color: '#6c757d', margin: 0 }}>
           Track overdue borrowings and outstanding fines
@@ -149,16 +149,15 @@ export default function OverdueBooks() {
       }}>
         <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'flex-end' }}>
           <div style={{ flex: 1, minWidth: '250px', position: 'relative' }}>
-            <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#9ca3af', fontSize: '14px', pointerEvents: 'none' }}>🔍</span>
-            <input
-              type="text"
-              value={search}
-              onChange={e => handleSearch(e.target.value)}
-              placeholder="Search by member, email, title, or ISBN..."
-              style={{ ...inputStyle, width: '100%', paddingLeft: '36px', boxSizing: 'border-box' }}
-              onFocus={e => (e.target.style.borderColor = '#003f7f')}
-              onBlur={e => (e.target.style.borderColor = '#e0e4ea')}
-            />
+<input
+  type="text"
+  value={search}
+  onChange={e => handleSearch(e.target.value)}
+  placeholder="Search by member, email, title, or ISBN..."
+  style={{ ...inputStyle, width: '100%', boxSizing: 'border-box' }}
+  onFocus={e => (e.target.style.borderColor = '#003f7f')}
+  onBlur={e => (e.target.style.borderColor = '#e0e4ea')}
+/>
           </div>
           <div style={{ minWidth: '160px' }}>
             <select

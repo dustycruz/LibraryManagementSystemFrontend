@@ -201,7 +201,7 @@ export default function Books() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
         <div>
           <h1 style={{ fontSize: '28px', fontWeight: '700', color: '#003f7f', marginBottom: '8px' }}>
-            📚 Book Catalog
+            Book Catalog
           </h1>
           <p style={{ fontSize: '14px', color: '#6c757d', margin: 0 }}>
             Browse and manage your library collection

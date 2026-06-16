@@ -35,7 +35,7 @@ export default function BorrowHistory() {
     <div>
       <div style={{ marginBottom: '32px' }}>
         <h1 style={{ fontSize: '28px', fontWeight: '700', color: '#003f7f', marginBottom: '8px' }}>
-          🕓 My Borrow History
+          My Borrow History
         </h1>
         <p style={{ fontSize: '14px', color: '#6c757d', margin: 0 }}>
           Track all your borrowed books and return dates

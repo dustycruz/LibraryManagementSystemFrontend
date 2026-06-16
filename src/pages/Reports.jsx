@@ -35,9 +35,9 @@ export default function Reports() {
   }, [activeTab]);
 
   const tabs = [
-    { key: 'most-borrowed', label: '📊 Most Borrowed', icon: '📊' },
-    { key: 'user-activity', label: '👥 User Activity', icon: '👥' },
-    { key: 'available', label: '✅ Available Books', icon: '✅' },
+    { key: 'most-borrowed', label: 'Most Borrowed', icon: '📊' },
+    { key: 'user-activity', label: 'User Activity', icon: '👥' },
+    { key: 'available', label: 'Available Books', icon: '✅' },
   ];
 
   const renderContent = () => {
@@ -183,7 +183,7 @@ export default function Reports() {
     <div>
       <div style={{ marginBottom: '32px' }}>
         <h1 style={{ fontSize: '28px', fontWeight: '700', color: '#003f7f', marginBottom: '8px' }}>
-          📊 Reports & Analytics
+          Reports & Analytics
         </h1>
         <p style={{ fontSize: '14px', color: '#6c757d', margin: 0 }}>
           View comprehensive library statistics and insights
