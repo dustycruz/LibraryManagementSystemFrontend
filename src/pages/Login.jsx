@@ -11,7 +11,7 @@ function Field({ label, type = 'text', placeholder, value, onChange, error, hint
   const borderColor = error
     ? '#ef4444'
     : focused
-    ? '#0058bc'
+    ? '#003f7f'
     : '#e4e2e4';
 
   const shadow = focused
@@ -69,25 +69,25 @@ function SubmitBtn({ loading, label, loadingLabel }) {
       disabled={loading}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      style={{
-        width: '100%',
-        padding: '11px',
-        backgroundColor: loading ? '#6b8fc7' : hovered ? '#004aaa' : '#0058bc',
-        color: '#ffffff',
-        border: 'none',
-        borderRadius: 8,
-        fontSize: 14,
-        fontWeight: 600,
-        fontFamily: 'inherit',
-        cursor: loading ? 'not-allowed' : 'pointer',
-        transition: 'background-color 0.15s, transform 0.1s',
-        transform: hovered && !loading ? 'translateY(-1px)' : 'none',
-        boxShadow: loading ? 'none' : '0 2px 8px rgba(0,88,188,0.25)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 8,
-      }}
+style={{
+  width: '100%',
+  padding: '11px',
+  backgroundColor: loading ? '#4d6f99' : hovered ? '#002f5f' : '#003f7f',
+  color: '#ffffff',
+  border: 'none',
+  borderRadius: 8,
+  fontSize: 14,
+  fontWeight: 600,
+  fontFamily: 'inherit',
+  cursor: loading ? 'not-allowed' : 'pointer',
+  transition: 'background-color 0.15s, transform 0.1s',
+  transform: hovered && !loading ? 'translateY(-1px)' : 'none',
+  boxShadow: loading ? 'none' : '0 2px 8px rgba(0,63,127,0.25)',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: 8,
+}}
     >
       {loading && (
         <span style={{
@@ -268,7 +268,7 @@ export default function Login() {
           {/* Header */}
           <div style={{ textAlign: 'center', marginBottom: 28 }}>
             <div style={{ fontSize: 44, marginBottom: 12, lineHeight: 1 }}></div>
-            <h1 style={{ fontSize: 26, fontWeight: 700, color: '#0058bc', margin: 0 }}>
+            <h1 style={{ fontSize: 26, fontWeight: 700, color: '#003f7f', margin: 0 }}>
               UST Angelicum
             </h1>
             <p style={{ fontSize: 13.5, color: '#717786', marginTop: 4 }}>
@@ -296,12 +296,12 @@ export default function Login() {
                     padding: '14px 8px',
                     border: 'none',
                     background: activeTab === tab ? '#fff' : '#f6f3f5',
-                    color: activeTab === tab ? '#0058bc' : '#717786',
+                    color: activeTab === tab ? '#003f7f' : '#717786',
                     fontWeight: activeTab === tab ? 700 : 500,
                     fontSize: 14,
                     fontFamily: 'inherit',
                     cursor: 'pointer',
-                    borderBottom: activeTab === tab ? '2px solid #0058bc' : '2px solid transparent',
+                    borderBottom: activeTab === tab ? '2px solid #003f7f' : '2px solid transparent',
                     marginBottom: -1,
                     transition: 'all 0.15s',
                   }}
